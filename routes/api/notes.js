@@ -5,23 +5,49 @@ const {
   readFromFile,
   readAndAppend,
   writeToFile,
-} = require('../helpers/fsUtils');
+} = require('../../helpers/fsUtils');
 const db = require("../../db/db.json");
 
 notes.get('/', (req, res) => {
     readFromFile('../../db/db.json').then((data) => res.json(JSON.parse(data)));
+    console.log('Error parsing JSON:', error, data);
+});
+
+notes.get('/:note_id', (req, res) => {
+    const noteId = req.params.tip_id;
+    readFromFile('../../db/db.json')
+      .then((data) => JSON.parse(data))
+      .then((json) => {
+        const result = json.filter((note) => note.note_id === noteId);
+        return result.length > 0
+          ? res.json(result)
+          : res.json('Uh oh, there is no note with that ID!');
+      });
+  });
+
+notes.delete('/:note_id', (req, res) => {
+    const noteId = req.params.note_id;
+    readFromFile('../../db/db.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+        const result = json.filter((note) => note.note_id !== noteId);
+
+        writeToFile('../../db/db.json', result);
+
+        res.json(`Note ${noteId} has been deleted.`);
+    });
 });
 
 notes.post('/', (req, res) => {
     console.log(req.body);
  
-    const { id, title, text } =req.body;
+    const { title, text } =req.body;
 
     if (req.body) {
         const newNote = {
-            id,
             title,
-            text
+            text,
+            noteId: uuidv4(),
         };
 
         readAndAppend(newNote, '../../db/db.json')
