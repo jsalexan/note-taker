@@ -4,17 +4,18 @@ const {
   readFromFile,
   readAndAppend,
   writeToFile,
-} = require('../../helpers/fsUtils');
+} = require('../helpers/fsUtils');
 
 // Get Route: Retrieves notes
 notes.get('/', (req, res) => {
-    readFromFile('../../db/db.json').then((data) => res.json(JSON.parse(data)));
+    readFromFile('/db/db.json').then((data) => res.json(JSON.parse(data)));
     // console.log('Error parsing JSON:', error, data);
 });
+
 // Get Route: By ID
 notes.get('/:note_id', (req, res) => {
     const noteId = req.params.note_id;
-    readFromFile('../../db/db.json')
+    readFromFile('/db/db.json')
       .then((data) => JSON.parse(data))
       .then((json) => {
         const result = json.filter((note) => note.note_id === noteId);
@@ -23,15 +24,16 @@ notes.get('/:note_id', (req, res) => {
           : res.json(`Uh oh, there is no note with that ID!`);
       });
   });
+
 // Delete Route: By ID
 notes.delete('/:note_id', (req, res) => {
     const noteId = req.params.note_id;
-    readFromFile('../../db/db.json')
+    readFromFile('/db/db.json')
     .then((data) => JSON.parse(data))
     .then((json) => {
         const result = json.filter((note) => note.note_id !== noteId);
 
-        writeToFile('../../db/db.json', result);
+        writeToFile('/db/db.json', result);
 
         res.json(`Note ${noteId} has been deleted.`);
     });
@@ -49,7 +51,7 @@ notes.post('/', (req, res) => {
         note_id: uuidv4(),
     };
  
-        readAndAppend(newNote, '../../db/db.json');
+        readAndAppend(newNote, '/db/db.json');
         res.json(`Your note was added with MUCH success!`);
     } else {
         res.error(`Oh no! There was an error adding your beautiful note!`);
