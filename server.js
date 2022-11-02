@@ -1,13 +1,21 @@
 const express = require('express');
-const path = require('path');
-const PORT = process.env.PORT || 3003;
+
+// Express server
 const app = express();
-const api = require('./routes/htmlRoutes.js');
+
+// Routes
+const api = require('./routes/apiRoutes.js');
+const html = require('./routes/htmlRoutes.js');
+
+// Port
+const PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use('/api', api);
+app.use('/', html);
 app.use(express.static("public"));
 
 // Port for local server

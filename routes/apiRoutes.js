@@ -1,61 +1,31 @@
 const notes = require('express').Router();
-const { v4: uuidv4 } = require('uuid');
-const {
-  readFromFile,
-  readAndAppend,
-  writeToFile,
-} = require('../helpers/fsUtils');
+const fsUtils = require('../helpers/fsUtils')
 
 // Get Route: Retrieves notes
-notes.get('/', (req, res) => {
-    readFromFile('/db/db.json').then((data) => res.json(JSON.parse(data)));
-    // console.log('Error parsing JSON:', error, data);
-});
-
-// Get Route: By ID
-notes.get('/:note_id', (req, res) => {
-    const noteId = req.params.note_id;
-    readFromFile('/db/db.json')
-      .then((data) => JSON.parse(data))
-      .then((json) => {
-        const result = json.filter((note) => note.note_id === noteId);
-        return result.length > 0
-          ? res.json(result)
-          : res.json(`Uh oh, there is no note with that ID!`);
-      });
-  });
-
-// Delete Route: By ID
-notes.delete('/:note_id', (req, res) => {
-    const noteId = req.params.note_id;
-    readFromFile('/db/db.json')
-    .then((data) => JSON.parse(data))
-    .then((json) => {
-        const result = json.filter((note) => note.note_id !== noteId);
-
-        writeToFile('/db/db.json', result);
-
-        res.json(`Note ${noteId} has been deleted.`);
-    });
+notes.get('/notes', (req, res) => {
+    fsUtils
+      .getNotes()
+      .then(notes => res.json(notes))
+      .catch(err => res.status(500).json(err));
+      console.log('Error getting notes:')
 });
 
 // Post Route: New notes
-notes.post('/', (req, res) => {
+notes.post('/notes', (req, res) => {
+    fsUtils
+      postNote(req.body)
+      .then(note => res.json(note))
+      .catch(err => res.status(500).json(err));
+      console.log('Error posting note:')
+});
 
-  const { title, text } = req.body;
-
-  if (req.body) {
-    const newNote = {
-        title,
-        text,
-        note_id: uuidv4(),
-    };
- 
-        readAndAppend(newNote, '/db/db.json');
-        res.json(`Your note was added with MUCH success!`);
-    } else {
-        res.error(`Oh no! There was an error adding your beautiful note!`);
-    }
+// Delete Route: By ID
+notes.delete('/notes/:note_id', (req, res) => {
+    fsUtils
+      deleteNote(req.params.note_id)
+      .then(() => res.json({ ok: true }))
+      .catch(err => res.status(500).json(err));
+      console.log('Error deleting note:');
 });
 
 module.exports = notes;
