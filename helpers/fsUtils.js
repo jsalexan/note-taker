@@ -8,14 +8,14 @@ const writeNote = util.promisify(fs.writeFile);
 
 class FSutils {
     write(note) {
-        return writeNote('db\db.json', JSON.stringify(note));
+        return writeNote('../db/db.json', JSON.stringify(note));
     }
 
     read() {
-        return readNote('db\db.json', 'utf8');
+        return readNote('../db/db.json', 'utf8');
     }
 
-    getNotes() {
+    getNotes(notes) {
         return this.read().then(notes => {
             let parsedNotes;
             try {

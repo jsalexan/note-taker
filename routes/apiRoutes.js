@@ -5,9 +5,10 @@ const fsUtils = require('../helpers/fsUtils')
 notes.get('/notes', (req, res) => {
     fsUtils
       .getNotes()
+      console.log(notes)
       .then(notes => res.json(notes))
       .catch(err => res.status(500).json(err));
-      console.log('Error getting notes:')
+      // console.log('Error getting notes:')
 });
 
 // Post Route: New notes
@@ -16,7 +17,7 @@ notes.post('/notes', (req, res) => {
       postNote(req.body)
       .then(note => res.json(note))
       .catch(err => res.status(500).json(err));
-      console.log('Error posting note:')
+      // console.log('Error posting note:')
 });
 
 // Delete Route: By ID
@@ -25,7 +26,7 @@ notes.delete('/notes/:note_id', (req, res) => {
       deleteNote(req.params.note_id)
       .then(() => res.json({ ok: true }))
       .catch(err => res.status(500).json(err));
-      console.log('Error deleting note:');
+      // console.log('Error deleting note:');
 });
 
 module.exports = notes;
