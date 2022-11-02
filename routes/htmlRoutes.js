@@ -13,7 +13,7 @@ app.get('/', (req, res) =>
 
 //  Wildcard Route: Directs to a 404 page
 app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, './public/pages/404.html'))
+  res.sendFile(path.join(__dirname, '../public/pages/404.html'))
 );
 
 module.exports = app;

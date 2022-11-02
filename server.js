@@ -13,10 +13,10 @@ const PORT = process.env.PORT || 4000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static("public"));
 app.use('/api', api);
 app.use('/', html);
-app.use(express.static("public"));
+
 
 // Port for local server
 app.listen(PORT, () => 
