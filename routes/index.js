@@ -4,6 +4,6 @@ const notesRouter = require('../routes/api/notes');
 
 const app = express();
 
-app.use('../routes/api/notes', notesRouter);
+app.use('/notes', notesRouter);
 
 module.exports = app;
