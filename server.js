@@ -8,7 +8,7 @@ const api = require('./routes/apiRoutes.js');
 const html = require('./routes/htmlRoutes.js');
 
 // Port
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 4006;
 
 // Middleware
 app.use(express.json());

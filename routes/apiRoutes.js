@@ -5,7 +5,6 @@ const fsUtils = require('../helpers/fsUtils')
 notes.get('/notes', (req, res) => {
     fsUtils
       .getNotes()
-      console.log(notes)
       .then(notes => res.json(notes))
       .catch(err => res.status(500).json(err));
       // console.log('Error getting notes:')
