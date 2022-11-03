@@ -33,9 +33,8 @@ class FSutils {
         const newNote = { 
             title, 
             text, 
-            note_id: uuidv4() 
+            id: uuidv4() 
         };
-
         
         return this.getNotes()
             .then(notes => [...notes, newNote])

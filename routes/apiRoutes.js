@@ -2,30 +2,30 @@ const notes = require('express').Router();
 const fsUtils = require('../helpers/fsUtils')
 
 // Get Route: Retrieves notes
-notes.get('/notes', (req, res) => {
+notes.get('/notes', function (req, res) {
     fsUtils
       .getNotes()
       .then(notes => res.json(notes))
       .catch(err => res.status(500).json(err));
-      // console.log('Error getting notes:')
+      
 });
 
 // Post Route: New notes
-notes.post('/notes', (req, res) => {
+notes.post('/notes', function (req, res) {
     fsUtils
-      postNote(req.body)
+      .postNote(req.body)
       .then(note => res.json(note))
       .catch(err => res.status(500).json(err));
-      // console.log('Error posting note:')
+      
 });
 
 // Delete Route: By ID
-notes.delete('/notes/:note_id', (req, res) => {
+notes.delete('/notes/:id', function (req, res) {
     fsUtils
-      deleteNote(req.params.note_id)
+      .deleteNote(req.params.id)
       .then(() => res.json({ ok: true }))
       .catch(err => res.status(500).json(err));
-      // console.log('Error deleting note:');
+      
 });
 
 module.exports = notes;
