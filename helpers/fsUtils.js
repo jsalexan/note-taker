@@ -42,8 +42,8 @@ class FSutils {
             .then(() => newNote);
     }
 
-    deleteNote(note_id) {
-        return this.getNotes()
+    deleteNote(id) {
+           return this.getNotes()
             .then(notes => notes.filter(note => note.id !== id))
             .then(filteredNotes => this.write(filteredNotes));
     }
