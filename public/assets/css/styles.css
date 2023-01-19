@@ -84,3 +84,7 @@ body {
   width: 50%;
   margin-top: 175px;
 }
+
+.fa-trash-alt:before {
+  color: rgb(71, 174, 140);
+}
