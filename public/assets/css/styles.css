@@ -88,3 +88,12 @@ body {
 .fa-trash-alt:before {
   color: rgb(71, 174, 140);
 }
+
+img.mem-image {
+  width: 300px;
+}
+
+img.mem-icon {
+  width: 50px;
+  padding-left: 10px;
+}
